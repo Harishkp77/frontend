@@ -2,15 +2,19 @@ import React, { useState } from 'react';
 
 
 const Signup = () => {
+  
     const [formData, setFormData] = useState({
         name: "",
         username: "",
         password: "",
     });
 
+    const [serverFeedback, setServerFeedback] = useState(""); 
+
     const handleChange = (e) => {
         const { id, value } = e.target;
         setFormData({ ...formData, [id]: value });
+        
       };
 
   const handleSubmit = (e) => {
@@ -22,9 +26,9 @@ const Signup = () => {
         },
         body: JSON.stringify(formData),
       })
-        .then((response) => response.json())
+        .then((response) => response.text())
         .then((data) => {
-          console.log("Registration successful:", data)
+          setServerFeedback(data);
 
           setFormData({
             name: "",
@@ -78,6 +82,10 @@ const Signup = () => {
           </div>
           <div className="d-grid">
             <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Sign Up</button>
+          </div>
+          <div className="mt-3 text-center">
+           
+            <p>{serverFeedback}</p>
           </div>
         </form>
       </div>
